@@ -1,100 +1,3 @@
-# AWSTemplateFormatVersion: '2010-09-09'
-# Transform: AWS::Serverless-2016-10-31
-# Description: >
-#   GXPAPI
-
-#   Sample SAM Template for GXPAPI
-
-# ## More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-
-# Parameters:
-#   Environment:
-#     Description: Sub environment to deploy the application
-#     Type: String
-#     Default: ''
-#     # AllowedValues:
-#     #   - staging
-#     #   - production
-#     # - staging
-#     #   - production
-#   SubEnv:
-#     Type: String
-#     Default: ''
-#     Description: Sub environment to deploy the application
-#     MaxLength: 30
-
-#   CognitoID:
-#     Type: String
-#     Description: cognito deployment
-  
-#   ClientID:
-#     Type: String
-#     Description: cognito client id
-
-# Globals:
-#   Function:
-#     Timeout: 600
-#     MemorySize: 512
-#     Tracing: Active
-#     Environment:
-#       Variables:
-#         ENV: !Sub ${Environment}
-#         COGNITO : !Sub ${CognitoID}
-#         CLIENT : !Sub ${ClientID}
-#         APIGATEWAY : !Ref MyApi
-#         # BUCKETNAME : !Ref S3BranchBucket
-
-# Conditions:
-#   CustomDomains: !Equals [!Ref Environment, "dev"]
-
-#   SchedulerOn: 
-#     Fn::Or:
-#       - Fn::Equals:
-#           - !Ref Environment
-#           - dev
-#       - Fn::Equals:
-#           - !Ref Environment
-#           - staging
-#       - Fn::Equals:
-#           - !Ref Environment
-#           - prod
-
-# Resources:
-#   HelloWorldFunction:
-#     Type: AWS::Serverless::Function
-#     Properties:
-#       Handler: lambda_function.lambda_handler
-#       Runtime: python3.9
-#       CodeUri: ./src/aws_lambda
-#       MemorySize: 128
-#       Timeout: 5
-#       Policies:
-#         - AWSLambdaBasicExecutionRole
-
-#   MyApi:
-#     Type: AWS::ApiGateway::RestApi
-#     Properties:
-#       Name: MyApi
-#       Description: "My API Gateway for Lambda"
-      
-#   LambdaApiGateway:
-#     Type: AWS::ApiGateway::Resource
-#     Properties:
-#       RestApiId: !Ref MyApi
-#       ParentId: !GetAtt MyApi.RootResourceId
-#       PathPart: "hello"
-      
-#   LambdaMethod:
-#     Type: AWS::ApiGateway::Method
-#     Properties:
-#       AuthorizationType: NONE
-#       HttpMethod: GET
-#       ResourceId: !Ref LambdaApiGateway
-#       RestApiId: !Ref MyApi
-#       Integration:
-#         IntegrationHttpMethod: POST
-#         Type: AWS_PROXY
-#         Uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/!GetAtt HelloWorldFunction.Arn/invocations
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 
@@ -107,8 +10,28 @@ Resources:
       CodeUri: ./src/aws_lambda
       MemorySize: 128
       Timeout: 5
+      Role: !GetAtt HelloWorldFunctionRole.Arn
       Policies:
         - AWSLambdaBasicExecutionRole
+
+  HelloWorldFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "lambda.amazonaws.com"
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyName: LambdaInvokePolicy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: "Allow"
+                Action: "lambda:InvokeFunction"
+                Resource: "*"
 
   MyApi:
     Type: AWS::ApiGateway::RestApi
@@ -141,3 +64,8 @@ Resources:
       Action: lambda:InvokeFunction
       FunctionName: !Ref HelloWorldFunction
       Principal: apigateway.amazonaws.com
+
+Outputs:
+  ApiGatewayUrl:
+    Description: "API Gateway URL"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/hello"
