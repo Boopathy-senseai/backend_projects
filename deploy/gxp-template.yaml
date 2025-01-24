@@ -31,9 +31,6 @@ Parameters:
     Type: String
     Description: cognito client id
 
-
-
-
 Globals:
   Function:
     Timeout: 600
@@ -61,7 +58,15 @@ Conditions:
       - Fn::Equals:
           - !Ref Environment
           - prod
+
 Resources:
+  MyApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: MyAPI
+      Description: API for GXPAPI
+      FailOnWarnings: true
+
   HelloWorldFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -71,3 +76,8 @@ Resources:
       MemorySize: 128
       Timeout: 5
       Policies: AWSLambdaBasicExecutionRole
+
+Outputs:
+  MyApiEndpoint:
+    Description: "API Gateway endpoint"
+    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/"
