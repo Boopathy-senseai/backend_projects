@@ -344,12 +344,12 @@ Resources:
         EmailSubject: "Action Required: Verify Your Account"
         
 
+
   CognitoPoolDomain: 
     Type: AWS::Cognito::UserPoolDomain 
     Properties:
       UserPoolId: !Ref CognitoUserPool 
-      Domain: !Sub  "gxp-${Environment}-domain"
-  
+      Domain: !Sub "gxp-${Environment}-domain-${AWS::StackName}"
   CognitoUserPoolClient:
     Type: AWS::Cognito::UserPoolClient
     Properties:
