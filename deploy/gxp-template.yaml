@@ -7,14 +7,14 @@ Resources:
     Properties:
       Handler: lambda_function.lambda_handler
       Runtime: python3.9
-      CodeUri: ./src/aws_lambda
+      CodeUri: ./src/aws_lambda  # Path to your Lambda function code
       MemorySize: 128
       Timeout: 5
-      Role: !GetAtt HelloWorldFunctionRole.Arn
+      Role: !GetAtt LambdaExecutionRole.Arn
       Policies:
-        - AWSLambdaBasicExecutionRole
+        - AWSLambdaBasicExecutionRole  # Allow Lambda to write logs to CloudWatch
 
-  HelloWorldFunctionRole:
+  LambdaExecutionRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -25,47 +25,16 @@ Resources:
               Service: "lambda.amazonaws.com"
             Action: "sts:AssumeRole"
       Policies:
-        - PolicyName: LambdaInvokePolicy
+        - PolicyName: LambdaBasicExecutionPolicy
           PolicyDocument:
             Version: "2012-10-17"
             Statement:
               - Effect: "Allow"
-                Action: "lambda:InvokeFunction"
+                Action: 
+                  - "logs:*"  # Grant permissions for logging to CloudWatch
                 Resource: "*"
 
-  MyApi:
-    Type: AWS::ApiGateway::RestApi
-    Properties:
-      Name: MyApi
-      Description: "My API Gateway for Lambda"
-
-  LambdaApiGateway:
-    Type: AWS::ApiGateway::Resource
-    Properties:
-      RestApiId: !Ref MyApi
-      ParentId: !GetAtt MyApi.RootResourceId
-      PathPart: "hello"
-
-  LambdaMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      AuthorizationType: NONE
-      HttpMethod: GET
-      ResourceId: !Ref LambdaApiGateway
-      RestApiId: !Ref MyApi
-      Integration:
-        IntegrationHttpMethod: POST
-        Type: AWS_PROXY
-        Uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/!GetAtt HelloWorldFunction.Arn/invocations
-
-  LambdaInvokePermission:
-    Type: AWS::Lambda::Permission
-    Properties:
-      Action: lambda:InvokeFunction
-      FunctionName: !Ref HelloWorldFunction
-      Principal: apigateway.amazonaws.com
-
 Outputs:
-  ApiGatewayUrl:
-    Description: "API Gateway URL"
-    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/hello"
+  LambdaFunctionName:
+    Description: "Lambda Function Name"
+    Value: !Ref HelloWorldFunction
