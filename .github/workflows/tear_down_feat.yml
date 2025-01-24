@@ -20,8 +20,8 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Prepare variables for SAM
@@ -49,8 +49,8 @@ jobs:
       # - name: Invoke Delete S3 BranchBuckets Lambda
       #   uses: gagoar/invoke-aws-lambda@master
       #   with:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.LIVE_AWS_ACCESS_KEY }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.LIVE_AWS_SECRET_ACCESS_KEY }}
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_KEY }}
       #     # FunctionName: Utils-Delete-S3-Buckets
       #     Payload: '{ "branch_name": "${{github.head_ref}}", "branch_name2": "${{github.ref_name}}"}'
       
