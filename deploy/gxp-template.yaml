@@ -166,31 +166,30 @@ Resources:
             method.response.header.Access-Control-Allow-Credentials: true
 
   OptionsGatewayMethod:
-    Type: AWS::ApiGateway::Method
-    Properties:
-      RestApiId: !Ref MyApiGateway
-      ResourceId: !Ref ProxyResource
-      HttpMethod: OPTIONS
-      AuthorizationType: NONE
-      Integration:
-        Type: MOCK
-        IntegrationResponses:
-          - StatusCode: 200
-            ResponseParameters:
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS,PATCH'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        RequestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        TimeoutInMillis: 29000
-      MethodResponses:
+  Type: AWS::ApiGateway::Method
+  Properties:
+    RestApiId: !Ref MyApiGateway
+    ResourceId: !Ref ProxyResource
+    HttpMethod: OPTIONS
+    AuthorizationType: NONE
+    Integration:
+      Type: MOCK
+      IntegrationResponses:
         - StatusCode: 200
-          ResponseModels:
-            application/json: Empty
           ResponseParameters:
-            method.response.header.Access-Control-Allow-Headers: true
-            method.response.header.Access-Control-Allow-Methods: true
-            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+            method.response.header.Access-Control-Allow-Methods: "'GET,POST,PUT,DELETE,OPTIONS,PATCH'"
+            method.response.header.Access-Control-Allow-Origin: "'*'"
+      RequestTemplates:
+        application/json: "{\"statusCode\": 200}"
+    MethodResponses:
+      - StatusCode: 200
+        ResponseModels:
+          application/json: Empty
+        ResponseParameters:
+          method.response.header.Access-Control-Allow-Headers: true
+          method.response.header.Access-Control-Allow-Methods: true
+          method.response.header.Access-Control-Allow-Origin: true
 
   Default4XXMyApiGatewayResponse:
     Type: AWS::ApiGateway::GatewayResponse
