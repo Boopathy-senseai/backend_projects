@@ -357,53 +357,53 @@ Resources:
       MemorySize: 128
       Timeout: 5
       Policies: AWSLambdaBasicExecutionRole
-  LambdaHandlerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: !Sub gxpgateway-${Environment}${SubEnv}
-      Role: !GetAtt LambdaRole.Arn
-      CodeUri: ../src/
-      Handler: app.lambda_handler
-      Runtime: python3.9
-      Events:
-        LambdaHandlerAPI:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId : !Ref MyApi
-            Path: /{proxy+}
-            Method: ANY
+  # LambdaHandlerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     FunctionName: !Sub gxpgateway-${Environment}${SubEnv}
+  #     Role: !GetAtt LambdaRole.Arn
+  #     CodeUri: ../src/
+  #     Handler: app.lambda_handler
+  #     Runtime: python3.9
+  #     Events:
+  #       LambdaHandlerAPI:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           RestApiId : !Ref MyApi
+  #           Path: /{proxy+}
+  #           Method: ANY
 
-  AuthHandlerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: !Sub gxpauth-${Environment}${SubEnv}
-      Role: !GetAtt LambdaRole.Arn
-      CodeUri: ../src/
-      Handler: app.auth_handler
-      Runtime: python3.9
-      Events:
-        LambdaHandlerAPI:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId : !Ref MyApiGateway
-            Path: /{proxy+}
-            Method: ANY
+  # AuthHandlerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     FunctionName: !Sub gxpauth-${Environment}${SubEnv}
+  #     Role: !GetAtt LambdaRole.Arn
+  #     CodeUri: ../src/
+  #     Handler: app.auth_handler
+  #     Runtime: python3.9
+  #     Events:
+  #       LambdaHandlerAPI:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           RestApiId : !Ref MyApiGateway
+  #           Path: /{proxy+}
+  #           Method: ANY
 
-  SignupHandlerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      FunctionName: !Sub gxpsignup-${Environment}${SubEnv}
-      Role: !GetAtt LambdaRole.Arn
-      CodeUri: ../src/
-      Handler: signin.auth_handler
-      Runtime: python3.9
-      Events:
-        LambdaHandlerAPI:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
-          Properties:
-            RestApiId : !Ref MySignUpGateway
-            Path: /{proxy+}
-            Method: ANY
+  # SignupHandlerFunction:
+  #   Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  #   Properties:
+  #     FunctionName: !Sub gxpsignup-${Environment}${SubEnv}
+  #     Role: !GetAtt LambdaRole.Arn
+  #     CodeUri: ../src/
+  #     Handler: signin.auth_handler
+  #     Runtime: python3.9
+  #     Events:
+  #       LambdaHandlerAPI:
+  #         Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+  #         Properties:
+  #           RestApiId : !Ref MySignUpGateway
+  #           Path: /{proxy+}
+  #           Method: ANY
             
   #: SCHEUDLER FUNCTION
   PermissionForAutoSchedulerToInvokeTriggerFunction:
@@ -423,14 +423,14 @@ Resources:
         - Arn: !GetAtt SchedulerLambdaFunction.Arn
           Id: SchedulerLambdaFunction
 
-  SchedulerLambdaFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: !Sub gxpappscheduler-${Environment}${SubEnv}
-      Role: !GetAtt LambdaRole.Arn
-      CodeUri: ../src/
-      Handler: scheduler.scheduler_handler
-      Runtime: python3.9
+  # SchedulerLambdaFunction:
+  #   Type: AWS::Serverless::Function
+  #   Properties:
+  #     FunctionName: !Sub gxpappscheduler-${Environment}${SubEnv}
+  #     Role: !GetAtt LambdaRole.Arn
+  #     CodeUri: ../src/
+  #     Handler: scheduler.scheduler_handler
+  #     Runtime: python3.9
   #: API_KEY AUTHENTICATION FOR LambdaHandlerFunction   
   MyApi:
     Type: AWS::ApiGateway::RestApi
