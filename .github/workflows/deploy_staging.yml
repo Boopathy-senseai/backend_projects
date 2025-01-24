@@ -38,9 +38,9 @@ jobs:
         id: ssm_params
         run: |
           ENV=staging
-          COGNITO=us-east-1_zqKSoA3Ay
+          COGNITO=us-east-1_odTjTvGRi
           DB_NAME=zita
-          CLIENT=dgsg2a63id3p6t9kj4b6anist
+          CLIENT=9hk5qprqpk1upt9m54rre1p65
           DOMAIN=api.service.zita.ai
           CERT_ARN=$(aws acm list-certificates --certificate-statuses ISSUED \
           --query 'CertificateSummaryList[?DomainName==`api.service.zita.ai`].CertificateArn' \
