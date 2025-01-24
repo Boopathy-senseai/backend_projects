@@ -397,6 +397,7 @@ Resources:
         - "custom:orgid"
         - "custom:firstname"
         - "custom:lastname"
+
 Outputs:
   CognitoUserPoolId:
     Description: "Cognito User Pool Id"
