@@ -38,3 +38,4 @@ Outputs:
   LambdaFunctionName:
     Description: "Lambda Function Name"
     Value: !Ref HelloWorldFunction
+
