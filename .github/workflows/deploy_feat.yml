@@ -39,11 +39,11 @@ jobs:
         id: ssm_params
         run: |
           ENV=feature
-          COGNITO=us-east-1_odTjTvGRi
+          COGNITO=us-west-1_HWDqiwCjB
           BRANCH_NAME=${{github.head_ref}}
           SUB_ENV=${BRANCH_NAME:0:30}
           DB_NAME=zita-${SUB_ENV}
-          CLIENT=9hk5qprqpk1upt9m54rre1p65
+          CLIENT=38qp1u7cl5cgp4473dh9b3dd1e
           DOMAIN=api.service.zita.ai
           CERT_ARN=$(aws acm list-certificates --certificate-statuses ISSUED \
           --query 'CertificateSummaryList[?DomainName==`api.service.zita.ai`].CertificateArn' \
