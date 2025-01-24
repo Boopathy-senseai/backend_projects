@@ -67,7 +67,7 @@ Resources:
       Runtime: python3.9  # Choose the runtime (Python 3.9 in this case)
       CodeUri: ./src/aws_lambda  # Path to the directory containing the Lambda function code
       MemorySize: 128  # Memory allocated to the function (128MB)
-      Timeout: 5  # Function timeout in seconds
+      Timeout: 10  # Function timeout in seconds
       Policies: 
         - AWSLambdaBasicExecutionRole  # Provides basic permissions to the Lambda function
       Environment: 
