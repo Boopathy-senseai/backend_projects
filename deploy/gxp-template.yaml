@@ -94,4 +94,4 @@ Resources:
       Integration:
         IntegrationHttpMethod: POST
         Type: AWS_PROXY
-        Uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-1:account-id:function:HelloWorldFunction/invocations
+        Uri: arn:aws:apigateway:us-west-1:lambda:path/2015-03-31/functions/!GetAtt HelloWorldFunction.Arn/invocations
